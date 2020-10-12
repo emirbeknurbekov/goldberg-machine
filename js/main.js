@@ -76,6 +76,10 @@ $( document ).ready(function() {
         rec.isStatic = false;
         rec.isSleeping = true;
     });
+
+    $('#reload-btn').click(function () {
+        location.reload(); 
+    });
 });
 
 
