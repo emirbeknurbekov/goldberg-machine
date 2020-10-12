@@ -31,7 +31,7 @@ $( document ).ready(function() {
 
     // create two boxes and a ground
     let boxA = Bodies.circle(10, 200, 20, { isSleeping: true, mass: 4, restitution: 0.3, render: {strokeStyle: redColor} });
-    let plane = Bodies.rectangle(300, 280, 700, 20, {isStatic: true, angle: Math.PI * 0.06 });
+    let plane = Bodies.rectangle(300, 280, 700, 20, {isSleeping: true, angle: Math.PI * 0.06 });
     let ground = Bodies.rectangle($( window ).width() / 2, $( window ).height() - 60, $( window ).width(), 60, { isStatic: true});
     let rec = Bodies.rectangle(600, 300, 40, 12, { isSleeping: true, angle: Math.PI * 0.56});
     // add all of the bodies to the world
@@ -62,7 +62,6 @@ $( document ).ready(function() {
 
     Matter.Events.on(mouseConstraint, 'startdrag', function(event) {
          event.body.isStatic = false;
-         console.log(event.body);
         });
 
     Matter.Events.on(mouseConstraint, 'enddrag', function(event) {
