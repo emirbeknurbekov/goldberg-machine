@@ -1,4 +1,12 @@
 $( document ).ready(function() {
+    var ball = function () {
+        return Bodies.circle(400, 20, 23, {
+            density: 0.0005,
+            frictionAir: 0.06,
+            restitution: 0.3,
+            friction: 0.01
+        });
+    }
     // module aliases
     var Engine = Matter.Engine,
         Render = Matter.Render,
@@ -22,6 +30,7 @@ $( document ).ready(function() {
             wireframes: false,
             showAngleIndicator: true,
             showCollisions: true,
+            showSleeping: true,
             showVelocity: true
         }
     });
@@ -79,6 +88,10 @@ $( document ).ready(function() {
     $('#reload-btn').click(function () {
         location.reload(); 
     });
+
+    $('#new').on('click', function () {
+    World.add(engine.world, ball());
+})
 });
 
 
