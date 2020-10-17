@@ -1,10 +1,8 @@
 $( document ).ready(function() {
     var ball = function () {
-        return Bodies.circle(400, 20, 23, {
-            density: 0.0005,
-            frictionAir: 0.06,
-            restitution: 0.3,
-            friction: 0.01
+        return Bodies.circle(100, 20, 23, {
+            mass: 4,
+            restitution: 0.3
         });
     }
     // module aliases
@@ -68,6 +66,7 @@ $( document ).ready(function() {
     engine.world.gravity.y = 2.5;
     World.add(engine.world, mouseConstraint);
     render.mouse = mouse;
+    var editBody = null;
 
     Matter.Events.on(mouseConstraint, 'startdrag', function(event) {
          event.body.isStatic = false;
@@ -75,7 +74,8 @@ $( document ).ready(function() {
 
     Matter.Events.on(mouseConstraint, 'enddrag', function(event) {
          event.body.isStatic = true;
-         console.log(event.body);
+         editBody = event.body;
+         console.log(editBody);
         });
 
     $('#run-btn').click(function () {
@@ -90,8 +90,29 @@ $( document ).ready(function() {
     });
 
     $('#new').on('click', function () {
-    World.add(engine.world, ball());
-})
+        World.add(engine.world, ball());
+    })
+
+    $('#edit-modal').on('shown.bs.modal', function () {
+        if (editBody !== null) {
+           $('#edit-name').val(editBody.label);
+           $('#edit-radius').val(editBody.circleRadius);
+           $('#edit-angle').val(editBody.angle);
+           $('#edit-mass').val(editBody.mass);
+           $('#edit-friction').val(editBody.friction);
+           $('#edit-restitution').val(editBody.restitution);
+        }
+    })
+
+    $('#edit-save').on('click', function () {
+        editBody.label = $('#edit-name').val();
+        editBody.circleRadius = +$('#edit-radius').val();
+        editBody.angle = +$('#edit-angle').val();
+        editBody.mass = +$('#edit-mass').val();
+        editBody.friction = +$('#edit-friction').val();
+        editBody.restitution = +$('#edit-restitution').val();
+    })
+   
 });
 
 
