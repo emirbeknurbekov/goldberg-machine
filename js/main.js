@@ -29,7 +29,8 @@ $( document ).ready(function() {
             showAngleIndicator: true,
             showCollisions: true,
             showSleeping: true,
-            showVelocity: true
+            showVelocity: true,
+            showIds: true
         }
     });
 
@@ -70,19 +71,24 @@ $( document ).ready(function() {
 
     Matter.Events.on(mouseConstraint, 'startdrag', function(event) {
          event.body.isStatic = false;
+         event.body.isSensor = true;
         });
 
     Matter.Events.on(mouseConstraint, 'enddrag', function(event) {
          event.body.isStatic = true;
+         event.body.isSensor = false;
+         Body.set(event.body, {velocity: {x: 0, y: 0}});
          editBody = event.body;
          console.log(editBody);
         });
 
     $('#run-btn').click(function () {
+        // $('#run-btn').text("STOP");
         boxA.isSleeping = false;
         boxA.isStatic = false;
         rec.isStatic = false;
         rec.isSleeping = true;
+
     });
 
     $('#reload-btn').click(function () {
@@ -97,7 +103,7 @@ $( document ).ready(function() {
         if (editBody !== null) {
            $('#edit-name').val(editBody.label);
            $('#edit-radius').val(editBody.circleRadius);
-           $('#edit-angle').val(editBody.angle);
+           $('#edit-angle').val(editBody.angle * 180 / Math.PI);
            $('#edit-mass').val(editBody.mass);
            $('#edit-friction').val(editBody.friction);
            $('#edit-restitution').val(editBody.restitution);
@@ -107,7 +113,7 @@ $( document ).ready(function() {
     $('#edit-save').on('click', function () {
         editBody.label = $('#edit-name').val();
         editBody.circleRadius = +$('#edit-radius').val();
-        editBody.angle = +$('#edit-angle').val();
+        Body.rotate(editBody, -(editBody.angle * 180 / Math.PI - $('#edit-angle').val()) * Math.PI / 180);
         editBody.mass = +$('#edit-mass').val();
         editBody.friction = +$('#edit-friction').val();
         editBody.restitution = +$('#edit-restitution').val();
