@@ -1,4 +1,20 @@
 $( document ).ready(function() {
+    // ! FUNCTIONS TO CREATE SHAPES
+	const shapes = {
+		circle(radius, config) {
+			return Bodies.circle(100, 20, radius, config);
+		},
+		rectangle(width, height, config) {
+			return Bodies.rectangle(100, 20, width, height, config);
+		},
+
+		polygon(sides, length, config) {
+			return Bodies.polygon(100, 20, sides, length, config);
+		},
+		trapezoid(width, height, slope, config) {
+			return Bodies.trapezoid(100, 20, width, height, slope, config);
+		},
+	};
     var ball = function () {
         return Bodies.circle(100, 20, 23, {
             mass: 4,
@@ -118,6 +134,54 @@ $( document ).ready(function() {
         editBody.friction = +$('#edit-friction').val();
         editBody.restitution = +$('#edit-restitution').val();
     })
+
+    // ! LISTENER TO CREATE CIRCLE
+	$("#circle-save").on("click", () => {
+		const radius = +$("#circle-radius").val();
+		const config = {
+			mass: +$("#circle-mass").val(),
+			restitution: +$("#circle-restitution").val(),
+			friction: +$("#circle-friction").val(),
+		};
+		World.add(engine.world, shapes.circle(radius, config));
+	});
+
+    // ! LISTENER TO CREATE RECTANGLE
+	$("#rectangle-save").on("click", () => {
+		const width = +$("#rectangle-width").val();
+		const height = +$("#rectangle-height").val();
+		const config = {
+			mass: +$("#rectangle-mass").val(),
+			restitution: +$("#rectangle-restitution").val(),
+			friction: +$("#rectangle-friction").val(),
+		};
+		World.add(engine.world, shapes.rectangle(width, height, config));
+	});
+
+    // ! LISTENER TO CREATE POLYGON
+	$("#polygon-save").on("click", () => {
+		const sides = +$("#polygon-sides").val();
+		const length = +$("#polygon-length").val();
+		const config = {
+			mass: +$("#rectangle-mass").val(),
+			restitution: +$("#rectangle-restitution").val(),
+			friction: +$("#rectangle-friction").val(),
+		};
+		World.add(engine.world, shapes.polygon(sides, length, config));
+	});
+
+    // ! LISTENER TO CREATE TRAPEZOID
+	$("#trapezoid-save").on("click", () => {
+		const width = +$("#trapezoid-width").val();
+		const height = +$("#trapezoid-height").val();
+		const slope = +$("#trapezoid-slope").val();
+		const config = {
+			mass: +$("#rectangle-mass").val(),
+			restitution: +$("#rectangle-restitution").val(),
+			friction: +$("#rectangle-friction").val(),
+		};
+		World.add(engine.world, shapes.trapezoid(width, height, slope, config));
+	});
    
 });
 
